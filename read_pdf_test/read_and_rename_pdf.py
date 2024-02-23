@@ -3,11 +3,58 @@ import os
 from datetime import date, datetime, timedelta,time
 from pdfminer.high_level import extract_pages, extract_text
 
+#zur Erweiterung: Zugriff auf Drucker um als Beispiel eine Rechnung direkt zu drucken (hier nur Windows)
+#import win32print 
+
+#--------------------------------------------------------------------------------
+#Liste an Verfügbaren Druckern zeigen 
+#System - Windows
+#--------------------------------------------------------------------------------
+#printers =win32print.EnumPrinters(win32print.PRINTER_ENUM_LOCAL,None,1) 
+#print(printers)
+
+#debugging Drucker
+#for printer in printers:
+#    print(printer[2]) #Nur Namen der Drucker darstellen
+#--------------------------------------------------------------------------------
+
 #definierten Pfad angeben welche Datei umbenannt werden soll
-os.chdir("G:/Documents/Python-Project/read_pdf_test")
+filepath = "G:/Documents/Python-Project/read_pdf_test"
+os.chdir(filepath) #python braucht / anstatt \ im Pfad
 
 #Datei welche gelesen und danach umbenannt werden soll
 file = "Daten_2.pdf"
+
+#--------------------------------------------------------------------------------
+#Vorbereitung für automatisches Drucken der Datei um händische Ablage zu machen
+#status - nicht getestet da kein Drucker angeschlossen 
+#System - Windows
+#--------------------------------------------------------------------------------
+#file_path = "G:/Documents/Python-Project/read_pdf_test/IMG_20210313_203343.jpg"
+
+#printer_name = "Microsoft Print to PDF" #hier Name des Druckers eintragen 
+#file_handle = open(file_path, "rb")
+#printer_handle = win32print.OpenPrinter(printer_name)
+#Job_Info = win32print.StartDocPrinter(printer_handle,1,(file_path,None,"RAW"))
+#win32print.StartPagePrinter(printer_handle)
+#win32print.WritePrinter(printer_handle, file_handle.read())
+#win32print.EndPagePrinter(printer_handle)
+#win32print.EndDocPrinter(printer_handle)
+#win32print.ClosePrinter(printer_handle)
+#file_handle.close()
+#--------------------------------------------------------------------------------
+
+
+#--------------------------------------------------------------------------------
+#Vorbereitung für automatisches Drucken der Datei um händische Ablage zu machen
+#status - nicht getestet da kein Drucker angeschlossen und kein Mac
+#System - Mac
+#Lösung aus https://stackoverflow.com/questions/53777939/how-to-send-a-picture-to-printer-with-python-on-macos
+#--------------------------------------------------------------------------------
+#os.system("lpr -P YOUR_PRINTER file_name.jpg")
+#--------------------------------------------------------------------------------
+
+#pdf als text lesen
 text = extract_text(file)
 
 #debugging
@@ -45,9 +92,8 @@ else:
     matches = "".join(matches)
     stripped = matches.replace(".","")
 
-
-
 #debugging
 #print("stripped")
 #print(stripped)
+    
 os.rename(file, stripped + "_" + file)
